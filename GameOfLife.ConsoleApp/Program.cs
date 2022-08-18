@@ -1,2 +1,11 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace GameOfLife.ConsoleApp
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var world = new World(10, 30);
+            world.PrintWorld();
+        }
+    }
+}
