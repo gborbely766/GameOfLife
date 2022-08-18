@@ -22,7 +22,13 @@ namespace GameOfLife.ConsoleApp
                 
             }
         }
-        public void PrintWorld()
+        public void DrowAndGrow()
+        {
+            Draw();
+            Grow();
+            
+        }
+        private void Draw()
         {
             for(int i = 0; i < world!.GetLength(0); i++)
             {
@@ -33,7 +39,7 @@ namespace GameOfLife.ConsoleApp
                 Console.WriteLine("\n");
             }
         }
-        public void GetNeighbors(Cell cell)
+        private void GetNeighbors(Cell cell)
         {
             for (int i = cell.X - 1; i < cell.X + 2; i++)
             {
@@ -41,13 +47,47 @@ namespace GameOfLife.ConsoleApp
                 {
                     if (!((i < 0 || j < 0) || (i >= world!.GetLength(0) || j >= world!.GetLength(1))))
                     {
-                        if (world[i, j].IsAlive == true)
+                        if (i != cell.X && j != cell.Y)
                         {
-                            world[i, j].NumberOfNeighbors += 1;
+                            if (world[i, j].IsAlive == true)
+                            {
+                                world[i, j].NumberOfNeighbors += 1;
+                            }
                         }
+                        
                     }
                 }
                 
+            }
+        }
+        private void Grow()
+        {
+            for (int i = 0; i < world!.GetLength(0); i++)
+            {
+                for (int j = 0; j < world!.GetLength(1); j++)
+                {
+                    var cell = world[i, j];
+                    if (cell.IsAlive)
+                    {
+                        GetNeighbors(cell);
+                        if (cell.NumberOfNeighbors < 2)
+                        {
+                            cell.IsAlive = false;
+                        }
+
+                        if (cell.NumberOfNeighbors > 3)
+                        {
+                            cell.IsAlive = false;
+                        }
+                    }
+                    else
+                    {
+                        if (cell.NumberOfNeighbors == 3)
+                        {
+                            cell.IsAlive = true;
+                        }
+                    }
+                }
             }
         }
     }

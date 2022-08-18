@@ -2,10 +2,20 @@
 {
     public class Program
     {
+        private const int maxRun = 100;
         public static void Main(string[] args)
         {
             var world = new World(10, 30);
-            world.PrintWorld();
+            int runs = 0;
+            while (runs++ < maxRun)
+            {
+                world.DrowAndGrow();
+                
+                            
+                System.Threading.Thread.Sleep(500);
+                Console.Clear();
+                
+            }
         }
     }
 }
