@@ -17,7 +17,7 @@ namespace GameOfLife.ConsoleApp
             {
                 for(int j = 0; j < width; j++)
                 {
-                    world![i, j] = new Cell(i, j);
+                    world[i, j] = new Cell(i, j);
                 }
                 
             }
@@ -32,63 +32,74 @@ namespace GameOfLife.ConsoleApp
         {
             for(int i = 0; i < world!.GetLength(0); i++)
             {
-                for(int j = 0; j < world.GetLength(1); j++)
+                for(int j = 0; j < world.GetLength(1) ; j++)
                 {
                     Console.Write(world[i, j].ToString());
+                    if (j == world.GetLength(1) - 2) Console.WriteLine("\r");
                 }
-                Console.WriteLine("\n");
+                
             }
+            Console.SetCursorPosition(0, Console.WindowTop);
         }
-        private void GetNeighbors(Cell cell)
+        private int GetNeighbors(int x, int y)
         {
-            for (int i = cell.X - 1; i < cell.X + 2; i++)
+            int numberOfNeighbors = 0;
+            for (int i = x - 1; i < x + 2; i++)
             {
-                for (int j = cell.Y- 1; j < cell.Y + 2; j++)
+                for (int j = y- 1; j < y + 2; j++)
                 {
                     if (!((i < 0 || j < 0) || (i >= world!.GetLength(0) || j >= world!.GetLength(1))))
                     {
-                        if (i != cell.X && j != cell.Y)
-                        {
+                    
                             if (world[i, j].IsAlive == true)
                             {
-                                world[i, j].NumberOfNeighbors += 1;
+                                numberOfNeighbors++;
                             }
-                        }
+                            
+                    
                         
                     }
                 }
                 
             }
+            return numberOfNeighbors;
         }
         private void Grow()
         {
+            
             for (int i = 0; i < world!.GetLength(0); i++)
             {
                 for (int j = 0; j < world!.GetLength(1); j++)
                 {
-                    var cell = world[i, j];
-                    if (cell.IsAlive)
+                    int neighbors = GetNeighbors(i, j);
+                    
+                    if (world[i,j].IsAlive)
                     {
-                        GetNeighbors(cell);
-                        if (cell.NumberOfNeighbors < 2)
+                        
+                        if (neighbors < 2)
                         {
-                            cell.IsAlive = false;
+                            world[i,j].IsAlive = false;
                         }
 
-                        if (cell.NumberOfNeighbors > 3)
+                        if (neighbors > 3)
                         {
-                            cell.IsAlive = false;
+                            world[i,j].IsAlive = false;
                         }
                     }
                     else
                     {
-                        if (cell.NumberOfNeighbors == 3)
+                        if (neighbors == 3)
                         {
-                            cell.IsAlive = true;
+                            world[i,j].IsAlive = true;
+                        }
+                        else
+                        {
+                            world[i, j].IsAlive = false;
                         }
                     }
                 }
             }
         }
+        
     }
 }

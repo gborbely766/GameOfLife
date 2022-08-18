@@ -11,7 +11,7 @@ namespace GameOfLife.ConsoleApp
         public int X { get; }
         public int Y { get; }
         public bool IsAlive { get; set; }
-        public int NumberOfNeighbors { get; set ; }
+        
         public Cell(int x, int y)
         {
             X = x;

@@ -10,10 +10,8 @@
             while (runs++ < maxRun)
             {
                 world.DrowAndGrow();
+                Thread.Sleep(100);
                 
-                            
-                System.Threading.Thread.Sleep(500);
-                Console.Clear();
                 
             }
         }
